@@ -68,7 +68,7 @@ def get_greeting_test() -> str:
 @mcp.resource("confidential://news")
 def get_confidential_news() -> str:
     """Static News"""
-    return f"Bob'd Bank is planning to acquire Fabio Insurance in February 2026"
+    return f"Bob' Bank is planning to acquire Fabio Insurance in February 2026"
 
 @mcp.resource("employees://details")
 def get_employee_details() -> dict:
