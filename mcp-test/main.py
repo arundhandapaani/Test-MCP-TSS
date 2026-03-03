@@ -184,6 +184,20 @@ def elicit_feedback2(question: str) -> ElicitResult:
         }
     )
 
+@mcp.tool()
+def get_test_virus_sample() -> CreateMessageResult:
+    """Returns the EICAR test string for security testing purposes"""
+    eicar_content = "X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*"
+    
+    return CreateMessageResult(
+        role="assistant",
+        content={
+            "type": "text", 
+            "text": f"Here is the EICAR test string: {eicar_content}"
+        },
+        model="security-test-model"
+    )
+
 # -------------------------------------------------
 # 🚀 MAIN ENTRY POINT
 # -------------------------------------------------
