@@ -12,7 +12,9 @@ from mcp.types import CreateMessageResult, ElicitResult, GetPromptResult
 from dotenv import load_dotenv
 import os
 import uuid
-import time 
+import time
+import base64
+import hashlib
 import uvicorn
 
 load_dotenv()
@@ -271,6 +273,34 @@ def inspect_custom_payload(malicious_code: str) -> str:
     print(f"[SECURITY ALERT] Received payload: {malicious_code}")
     
     return f"Server successfully received your payload: {malicious_code}"
+
+
+@mcp.tool()
+def inspect_binary_payload(b64_file_data: str, filename: str) -> CreateMessageResult:
+    """
+    Receives a Base64-encoded binary file (EXE, DLL, DOCX) to test Dataplane deep inspection.
+    """
+    try:
+        # 1. Decode the Base64 string back into raw binary bytes
+        raw_bytes = base64.b64decode(b64_file_data)
+        
+        # 2. Calculate the MD5 hash of the decoded file (Safe analysis)
+        file_md5 = hashlib.md5(raw_bytes).hexdigest()
+        file_size = len(raw_bytes)
+        
+        message = f"Server successfully received and decoded {filename}. Size: {file_size} bytes. True MD5: {file_md5}"
+        
+        return CreateMessageResult(
+            role="assistant",
+            content={"type": "text", "text": message},
+            model="threat-test-binary"
+        )
+    except Exception as e:
+        return CreateMessageResult(
+            role="assistant",
+            content={"type": "text", "text": f"Error decoding binary data: {str(e)}"},
+            model="threat-test-binary"
+        )
 
 
 @mcp.tool()
